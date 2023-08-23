@@ -4,7 +4,7 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "FireBreathFolder":{
+      "FireBreathFolder": {
         "$className": "Folder"
       },
       "FireBreathEvent":{
@@ -13,7 +13,7 @@
     },
 
     "ServerScriptService": {
-      "Server": {
+      "Server": { 
         "$path": "src/server"
       },  
       "$path": "src/FireBreath-Code"
