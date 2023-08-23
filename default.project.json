@@ -4,11 +4,27 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
+      "BlasterEvents":{
+        "$className":"Folder",
+
+        "DamageCharacter":{
+        "$className":"RemoteEvent"
+        },
+        
+        "LaserFired":{
+        "$className":"RemoteEvent"
+        }
+
+      },
       "FireBreathFolder": {
         "$className": "Folder",
+
           "FireBreathEvent":{
           "$className": "RemoteEvent"
-        }
+        },
+          "FireBreathModel":{
+            "$className":"Part"
+          }
       }
     },
 
