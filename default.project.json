@@ -4,18 +4,19 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "Shared": {
-        "$path": "src/shared"
+      "FireBreathFolder":{
+        "$className":"Folder"
       },
-      "FireBreathFolder": {
-        "$path": "src/FireBreathFolder"
+      "FireBreathEvent":{
+        "$className": "RemoteEvent"
       }
     },
 
     "ServerScriptService": {
       "Server": {
         "$path": "src/server"
-      }
+      },  
+      "$path": "src/FireBreath-Code"
     },
 
     "StarterPlayer": {
