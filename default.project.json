@@ -5,7 +5,7 @@
 
     "ReplicatedStorage": {
       "FireBreathFolder":{
-        "$className":"Folder"
+        "$className": "Folder"
       },
       "FireBreathEvent":{
         "$className": "RemoteEvent"
