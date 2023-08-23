@@ -5,10 +5,10 @@
 
     "ReplicatedStorage": {
       "FireBreathFolder": {
-        "$className": "Folder"
-      },
-      "FireBreathEvent":{
-        "$className": "RemoteEvent"
+        "$className": "Folder",
+          "FireBreathEvent":{
+          "$className": "RemoteEvent"
+        }
       }
     },
 
@@ -21,7 +21,7 @@
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "Client": {
+        "ClientTest": {
           "$path": "src/client"
         }
       }
