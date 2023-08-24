@@ -30,10 +30,13 @@
 
     "ServerScriptService": {
       "ServerFireManager":{
-        "$path": "src/ServerScriptService"
+        "$path": "src/ServerScriptService/ServerFireManager"
       },
       "ServerLaserManager":{
-        "$path":"src/ServerScriptService"
+        "$path":"src/ServerScriptService/ServerLaserManager.server/lua"
+      },
+      "ETC":{
+        "$path":"src.ServerScriptService/Etc"
       }
     },
 
