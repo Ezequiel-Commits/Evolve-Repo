@@ -4,7 +4,32 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
+<<<<<<< Updated upstream
         "$path": "src/shared"
+=======
+      "BlasterEvents":{
+        "$className":"Folder",
+
+        "DamageCharacter": {
+        "$className":"RemoteEvent"
+        },
+
+        "LaserFired":{
+        "$className":"RemoteEvent"
+        }
+
+      },
+      "FireBreathFolder": {
+        "$className": "Folder",
+
+          "FireBreathEvent":{
+          "$className": "RemoteEvent"
+        },
+          "FireBreathModel":{
+            "$className":"Part"
+          }
+      }
+>>>>>>> Stashed changes
     },
 
     "ServerScriptService": {
