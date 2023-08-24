@@ -23,16 +23,18 @@
           "$className": "RemoteEvent"
         },
           "FireBreathModel":{
-            "$className":"Part"
+            "$className":"Model"
           }
       }
     },
 
     "ServerScriptService": {
-      "Server": { 
-        "$path": "src/server"
-      },  
-      "$path": "src/FireBreath-Code"
+      "ServerFireManager":{
+        "$path": "src/ServerScriptService"
+      },
+      "ServerLaserManager":{
+        "$path":"src/ServerScriptService"
+      }
     },
 
     "StarterPlayer": {
