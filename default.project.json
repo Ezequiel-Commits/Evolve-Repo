@@ -4,9 +4,6 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-<<<<<<< Updated upstream
-        "$path": "src/shared"
-=======
       "BlasterEvents":{
         "$className":"Folder",
 
@@ -29,7 +26,6 @@
             "$className":"Part"
           }
       }
->>>>>>> Stashed changes
     },
 
     "ServerScriptService": {
