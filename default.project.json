@@ -7,10 +7,10 @@
       "BlasterEvents":{
         "$className":"Folder",
 
-        "DamageCharacter": {
+        "DamageCharacter":{
         "$className":"RemoteEvent"
         },
-
+        
         "LaserFired":{
         "$className":"RemoteEvent"
         }
@@ -29,12 +29,15 @@
     },
 
     "ServerScriptService": {
+      "Server": { 
         "$path": "src/server"
+      },  
+      "$path": "src/FireBreath-Code"
     },
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "Client": {
+        "ClientTest": {
           "$path": "src/client"
         }
       }
