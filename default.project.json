@@ -44,7 +44,7 @@
       "StarterPlayerScripts": {
         "ClientLaserManager":{
           
-          "$path":"src/StarterPlayer/ClientLaserManager.Client.lua"
+          "$path":"src/StartPlayer/ClientLaserManager.client.lua"
         }
       }
     },
