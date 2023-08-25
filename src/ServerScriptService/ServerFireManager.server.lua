@@ -22,18 +22,18 @@ FireBreathEvents.FireBreathEvent.OnServerEvent:Connect(function(player)
 	
 	local FireBreathModel = game.ReplicatedStorage.FireBreathFolder:FindFirstChild("FireBreathModel"):Clone()
 	local hitbox = FireBreathModel.Hitbox
+	FireBreathModel.Parent = game.Workspace
 
 	-- constantly update the CFrame of the model to be in front of the player 
 	local head = player.Character.Head
-	local Weld = Instance.new("Weld", head)
+	local weldConstraint = Instance.new("WeldConstraint")
 	
 	local offset = Vector3.new(0,1,-2.5) 
 	FireBreathModel:PivotTo(player.Character.HumanoidRootPart.CFrame*CFrame.new(offset))
 
-	Weld.Part0 = head -- can I increase the space between the weld parts?
-	Weld.Part1 = FireBreathModel.FireBreathPart
-	
-	FireBreathModel.Parent = player.Character
+	weldConstraint.Parent = head
+	weldConstraint.Part0 = head 
+	weldConstraint.Part1 = FireBreathModel.FireBreathPart
 	
 	local function DamagePlayer(otherPart)	
 		print("Hitbox Touched")
@@ -54,7 +54,7 @@ FireBreathEvents.FireBreathEvent.OnServerEvent:Connect(function(player)
 	
 	-- remove the item after a certain period of time
 	game.Debris:AddItem(FireBreathModel, 100)
-	game.Debris:AddItem(Weld, 100)
+	game.Debris:AddItem(weldConstraint, 100)
 	
 end)
 
