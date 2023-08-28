@@ -49,6 +49,12 @@
       }
     },
 
+    "StarterGui":{
+      "FireController":{
+        "$path":"src/Tools/FireController.client.lua"
+      }
+    },
+
     "Workspace": {
       "$properties": {
         "FilteringEnabled": true
