@@ -30,21 +30,28 @@
 
     "ServerScriptService": {
       "ServerFireManager":{
-        "$path": "src/ServerScriptService/ServerFireManager"
+        "$path": "src/ServerScriptService/ServerFireManager.server.lua"
       },
       "ServerLaserManager":{
-        "$path":"src/ServerScriptService/ServerLaserManager.server/lua"
+        "$path":"src/ServerScriptService/ServerLaserManager.server.lua"
       },
       "ETC":{
-        "$path":"src.ServerScriptService/Etc"
+        "$path":"src/ServerScriptService/Etc.server.lua"
       }
     },
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "ClientTest": {
-          "$path": "src/client"
+        "ClientLaserManager":{
+          
+          "$path":"src/StartPlayer/ClientLaserManager.client.lua"
         }
+      }
+    },
+
+    "StarterGui":{
+      "FireController":{
+        "$path":"src/Tools/FireController.client.lua"
       }
     },
 

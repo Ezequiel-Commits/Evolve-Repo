@@ -18,3 +18,4 @@ for i, v in pairs(addressDatabase) do
 	wait(0.5)
 	print(i,v)
 end]]
+
