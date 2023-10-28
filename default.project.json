@@ -4,6 +4,18 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
+      "ReplicatedModules":{
+        "$className":"Folder",
+
+        "BezierModule":{
+          "$path": "src/ModuleScripts/BezierModule.lua"
+        },
+        
+        "RoundModule":{
+          "$path":"src/ModuleScripts/RoundModule.lua"
+        }
+
+      },
       "BlasterEvents":{
         "$className":"Folder",
 
@@ -16,42 +28,92 @@
         }
 
       },
-      "FireBreathFolder": {
-        "$className": "Folder",
-
-          "FireBreathEvent":{
-          "$className": "RemoteEvent"
-        },
-          "FireBreathModel":{
-            "$className":"Model"
+      "AbilityFolder":{
+        "$className":"Folder",
+        
+        "FireBreathFolder": {
+          "$className": "Folder",
+  
+            "FireBreath":{
+            "$className": "RemoteEvent"
           }
+        },
+        "RockThrowFolder":{
+          "$className":"Folder",
+  
+          "RockThrow":{
+            "$className":"RemoteEvent"
+          }
+        }
+      },
+      "TeleportEvent":{
+        "$className":"RemoteEvent"
       }
     },
 
     "ServerScriptService": {
-      "ServerFireManager":{
-        "$path": "src/ServerScriptService/ServerFireManager.server.lua"
+      "ServerAbilityManager":{
+        "$path": "src/ServerScripts/ServerAbilityManager.server.lua"
       },
       "ServerLaserManager":{
-        "$path":"src/ServerScriptService/ServerLaserManager.server.lua"
+        "$path":"src/ServerScripts/ServerLaserManager.server.lua"
       },
-      "ETC":{
-        "$path":"src/ServerScriptService/Etc.server.lua"
+      "Testing":{
+        "$path":"src/ServerScripts/Testing.server.lua"
+      },
+      "GameLogic":{
+        "$path":"src/ServerScripts/GameLogic.server.lua"
+      },
+      "ServerMatchmaking":{
+        "$path":"src/ServerScripts/ServerMatchmaking.server.lua"
       }
+    },
+
+    "StarterPack":{
+      
     },
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
         "ClientLaserManager":{
           
-          "$path":"src/StartPlayer/ClientLaserManager.client.lua"
+          "$path":"src/ClientScripts/ClientLaserManager.client.lua"
+        },
+        "LaserRenderer":{
+          "$path":"src/ModuleScripts/LaserRenderer.lua"
+        },
+        "ClientAbilityController":{
+          "$path":"src/ClientScripts/ClientAbilityController.client.lua",
+  
+          "DebounceModule":{
+            "$path":"src/ModuleScripts/DebounceModule.lua"
+          }
+        },
+        "BlasterController":{
+          "$path":"src/ClientScripts/BlasterController.client.lua"
         }
       }
     },
 
     "StarterGui":{
-      "FireController":{
-        "$path":"src/Tools/FireController.client.lua"
+      "MainGui":{
+        "$className": "ScreenGui",
+        
+        "ClientMainGui":{
+          "$path":"src/ClientScripts/ClientMainGui.client.lua"
+        },
+
+        "TimeStatus":{
+          "$className": "TextLabel"
+        }
+
+      },
+      "QueueGui":{
+        "$className": "ScreenGui",
+
+        "ClientMatchmaking":{
+          "$path":"src/ClientScripts/ClientMatchmaking.client.lua"
+        }
       }
     },
 
