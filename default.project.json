@@ -13,6 +13,10 @@
         
         "RoundModule":{
           "$path":"src/ModuleScripts/RoundModule.lua"
+        },
+
+        "DebounceModule":{
+          "$path":"src/ModuleScripts/DebounceModule.lua"
         }
 
       },
@@ -44,8 +48,20 @@
           "RockThrow":{
             "$className":"RemoteEvent"
           }
+        },
+        "LeapFolder":{
+          "$className":"Folder",
+
+          "Leap":{
+            "$className":"RemoteEvent"
+          }
         }
       },
+
+      "TimeStatus":{
+        "$className":"IntValue"
+      },
+
       "TeleportEvent":{
         "$className":"RemoteEvent"
       }
@@ -58,8 +74,8 @@
       "ServerLaserManager":{
         "$path":"src/ServerScripts/ServerLaserManager.server.lua"
       },
-      "Testing":{
-        "$path":"src/ServerScripts/Testing.server.lua"
+      "ServerTesting":{
+        "$path":"src/ServerScripts/ServerTesting.server.lua"
       },
       "GameLogic":{
         "$path":"src/ServerScripts/GameLogic.server.lua"
@@ -70,7 +86,13 @@
     },
 
     "StarterPack":{
-      
+      "Blaster":{
+        "$className":"Tool",
+        
+        "BlasterController":{
+          "$path":"src/ClientScripts/BlasterController.client.lua"
+        }
+      }
     },
 
     "StarterPlayer": {
@@ -83,14 +105,10 @@
           "$path":"src/ModuleScripts/LaserRenderer.lua"
         },
         "ClientAbilityController":{
-          "$path":"src/ClientScripts/ClientAbilityController.client.lua",
-  
-          "DebounceModule":{
-            "$path":"src/ModuleScripts/DebounceModule.lua"
-          }
+          "$path":"src/ClientScripts/ClientAbilityController.client.lua"
         },
-        "BlasterController":{
-          "$path":"src/ClientScripts/BlasterController.client.lua"
+        "ClientTesting":{
+          "$path":"src/ClientScripts/ClientTesting.client.lua"
         }
       }
     },

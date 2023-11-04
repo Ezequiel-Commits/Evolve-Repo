@@ -1,6 +1,5 @@
----@diagnostic disable: trailing-space
 local userInputService = game:GetService("UserInputService")
-local DebounceModule = require(script.DebounceModule)
+local DebounceModule = require(game.ReplicatedStorage.ReplicatedModules.DebounceModule)
 local AbilityRunning = false
 
 -- tick values 
@@ -8,14 +7,14 @@ local TimeOfPreviousFire = 0
 local TimeOfPreviousRock = 0
 local TimeOfPreviousLeap = 0
 
+
 local function FireAbility(AbilityName)
     
     assert(typeof(AbilityName) == "string", "Pass a string value")
 
     if AbilityName == "FireBreath" then
         
-        local CastingTime = 7.5 -- is there a better way to implement this casting time? 
-                                -- Could I pass it as a parameter? 
+        local CastingTime = 7.5 -- is there a better way to implement this casting time? -- Could I pass it as a parameter? 
         local AbilityCooldown = 10 + CastingTime
         if DebounceModule.Debounce(TimeOfPreviousFire, AbilityCooldown) and DebounceModule.NoAbilityRunning(AbilityRunning) then
            
@@ -58,8 +57,8 @@ local function FireAbility(AbilityName)
     end
 end
 
--- detect client input
 userInputService.InputBegan:Connect(function(input,gpe)
+    -- detect client input
 	if input.KeyCode == Enum.KeyCode.Three then
 		FireAbility("RockThrow")
     elseif input.KeyCode == Enum.KeyCode.Four then

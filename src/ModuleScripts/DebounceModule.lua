@@ -1,10 +1,9 @@
 local DebounceModule = {}
 
-function DebounceModule.Debounce(TimeOfPreviousAbility, DebounceRate)
-	-- a debounce function that makes use of the current time and a cooldown rate
+function DebounceModule.Debounce(TimeOfPreviousIteration, DebounceRate)
+	-- a debounce function that makes use of the time of the last iteration and a cooldown rate
 	local t = tick()
-	print(t, TimeOfPreviousAbility)
-	if t - TimeOfPreviousAbility < DebounceRate then
+	if t - TimeOfPreviousIteration < DebounceRate then
 		print("Wait for Ability Cooldown")
 		return false
 	else 
