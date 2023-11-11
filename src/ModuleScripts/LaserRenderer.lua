@@ -6,19 +6,18 @@ function laserRenderer.createLaser(toolHandle, endPosition)
 	local startPosition = toolHandle.Position
 	local laserDistance = (endPosition - startPosition).magnitude
 	
-	-- create a cframe based off the invisible ray
-	local laserCFrame = CFrame.lookAt(startPosition,endPosition)*CFrame.new(0, 0, -laserDistance / 2)
-	local laserPart = Instance.new("Part")
+	-- getting the midpoint of a cframe
+	local laserCFrame = CFrame.lookAt(startPosition, endPosition) * CFrame.new(0, 0, -laserDistance / 2)
 	
 	-- Create the laser and it's properties 
-	laserPart.Parent = workspace
+	local laserPart = Instance.new("Part")
 	laserPart.Size = Vector3.new(0.2,0.2,laserDistance)
+	laserPart.CFrame = laserCFrame
 	laserPart.Anchored = true
 	laserPart.CanCollide = false
-	laserPart.CFrame = laserCFrame
+	laserPart.Parent = workspace
 	
-	-- Add the laser beam to the Debris service to be removed and cleaned up
-	game.Debris:AddItem(laserPart,shotDuration)
+	game.Debris:AddItem(laserPart, shotDuration)
 	
 	-- play the weapon's shooting sound for everyone in the server
 	local shootingSound = toolHandle:FindFirstChild("Activated")

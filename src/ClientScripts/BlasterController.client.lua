@@ -1,19 +1,20 @@
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
+
+local userInputService = game:GetService("UserInputService")
 local laserRenderer = require(player.PlayerScripts:WaitForChild("LaserRenderer"))
 local DebounceModule = require(game.ReplicatedStorage.ReplicatedModules.DebounceModule)
-local lastIteration = 0
+local contextActionService = game:GetService("ContextActionService")
 
 local Blaster = script.Parent
 local Bullets = Blaster:WaitForChild("Bullets")
+local cooldown = .5
+local lastIteration = 0
 
-local mouse = player:GetMouse()
 maxMouseDistance = 1000
 maxLaserDistance = 500
 
-local contextActionService = game:GetService("ContextActionService")
 local ReloadAction = "reloadWeapon"
-
 local reloadAnimation = Blaster:WaitForChild("ReloadAnimation")
 reloadAnimation.AnimationId = "rbxassetid://14373884395"
 
@@ -53,11 +54,11 @@ local function unEquipped()
 end
 
 local function GetWorldMousePosition()
+	local mouseLocation = userInputService:GetMouseLocation()
+
 	-- still a bit confusing
-	local screenToWorldRay = workspace.CurrentCamera:ViewportPointToRay(mouse.X, mouse.Y)
+	local screenToWorldRay = workspace.CurrentCamera:ViewportPointToRay(mouseLocation.X, mouseLocation.Y)
 	local directionVector = screenToWorldRay.Direction * maxMouseDistance
-	print(screenToWorldRay)
-	print(directionVector)
 
 	local raycastResult = workspace:Raycast(screenToWorldRay.Origin, directionVector)
 
@@ -71,50 +72,42 @@ end
 local function fireWeapon()
 	local mouseLocation = GetWorldMousePosition()
 
-	-- confusing
+	-- the problem is somewhere here.
 	local targetLocation = (mouseLocation - Blaster.Handle.Position).Unit
-
 	local directionVector = targetLocation * maxLaserDistance
+
 	local weaponRaycastParams = RaycastParams.new()
+	weaponRaycastParams.FilterDescendantsInstances = {player.Character}
+	local weaponRaycastResult = workspace:Raycast(Blaster.Handle.Position, directionVector, weaponRaycastParams)
 
-	local headLookVector = game.Workspace[player.Name].Head.CFrame.LookVector
-	local mouseLookVector = CFrame.new(game.Workspace[player.Name].Head.Position,mouseLocation).LookVector
-	local difference = (headLookVector - mouseLookVector)
-	--print(difference.magnitude)
-	-- stop the player from shooting behind themselves
-	if difference.magnitude < 1.33 then
+	local hitPosition
+	if weaponRaycastResult then
+		hitPosition = weaponRaycastResult.Position
 
-		weaponRaycastParams.FilterDescendantsInstances = {player.Character}
-		local weaponRaycastResult = workspace:Raycast(Blaster.Handle.Position,directionVector,weaponRaycastParams)
-
-		local hitPosition
-		if weaponRaycastResult then
-			hitPosition = weaponRaycastResult.Position
-
-			local characterModel = weaponRaycastResult.Instance:FindFirstAncestorOfClass("Model")
-			if characterModel then
-				local humanoid = characterModel:FindFirstChild("Humanoid")
-				if humanoid then
-					game.ReplicatedStorage.BlasterEvents.DamageCharacter:FireServer(characterModel, hitPosition)
-				end
+		-- If a humanoid is found in the model then it's likely a player's character
+		local characterModel = weaponRaycastResult.Instance:FindFirstAncestorOfClass("Model")
+		if characterModel then
+			local humanoid = characterModel:FindFirstChild("Humanoid")
+			if humanoid then
+				print("Player hit")
+				game.ReplicatedStorage.BlasterEvents.DamageCharacter:FireServer(characterModel, hitPosition)
 			end
-
-		else
-			hitPosition = Blaster.Handle.Position + directionVector
 		end
-		-- create a laser on the player's client, as well as on everyone else's client
-		game.ReplicatedStorage.BlasterEvents.LaserFired:FireServer(hitPosition)
-		laserRenderer.createLaser(Blaster.Handle, hitPosition)
+
+	else
+		hitPosition = Blaster.Handle.Position + directionVector
 	end
 
+	-- create a laser on the player's client, as well as on everyone else's client
+	game.ReplicatedStorage.BlasterEvents.LaserFired:FireServer(hitPosition)
+	laserRenderer.createLaser(Blaster.Handle, hitPosition)
 end
 
 local function OnActivation()
-	local cooldown = .5
 	if DebounceModule.Debounce(lastIteration,cooldown) then
 		if Bullets.Value > 0 then
-			--print(Bullets.Value)
 			fireWeapon()
+			lastIteration = tick()
 			Bullets.Value = Bullets.Value - 1
 		else
 			print("Out of Bullets")

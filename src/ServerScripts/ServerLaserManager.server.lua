@@ -16,13 +16,14 @@ function isHitValid(playerFired, characterToDamage, hitPosition)
 		return false
 	end
 
+	-- Check if shooting through walls
 	local toolHandle = getPlayerToolHandle(playerFired)
 	if toolHandle then
 		local rayLength = (hitPosition - toolHandle.Position).Magnitude
 		local rayDirection = (hitPosition - toolHandle.Position).Unit
 		local raycastParams = RaycastParams.new()
 		raycastParams.FilterDescendantsInstances = {playerFired.Character} 
-		local rayResult = workspace:Raycast(toolHandle.Position,rayLength * rayDirection,raycastParams)
+		local rayResult = workspace:Raycast(toolHandle.Position, rayDirection * rayLength, raycastParams)
 		
 		if rayResult and not rayResult.Instance:IsDescendantOf(characterToDamage) then
 			return false
