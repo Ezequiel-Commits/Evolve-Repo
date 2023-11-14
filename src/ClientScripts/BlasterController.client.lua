@@ -1,5 +1,6 @@
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
+local item
 
 local userInputService = game:GetService("UserInputService")
 local laserRenderer = require(player.PlayerScripts:WaitForChild("LaserRenderer"))
@@ -45,11 +46,16 @@ local function onAction(actionName, inputState)
 end
 
 local function onEquipped()
+	-- FPS enabled
+	-- player.CameraMode = Enum.CameraMode.LockFirstPerson
 	contextActionService:BindAction(ReloadAction, onAction, true, Enum.KeyCode.R)
 	Blaster.Handle:FindFirstChild("Equipped"):Play()
 end
 
 local function unEquipped()
+	-- FPS disabled
+	-- player.CameraMode = Enum.CameraMode.Classic
+	player.CameraMinZoomDistance = 9.6
 	contextActionService:UnbindAction(ReloadAction)
 end
 
@@ -72,17 +78,26 @@ end
 local function fireWeapon()
 	local mouseLocation = GetWorldMousePosition()
 
-	-- the problem is somewhere here.
+	-- the bug is somewhere here. At times the ray will form behind the player
 	local targetLocation = (mouseLocation - Blaster.Handle.Position).Unit
 	local directionVector = targetLocation * maxLaserDistance
 
 	local weaponRaycastParams = RaycastParams.new()
-	weaponRaycastParams.FilterDescendantsInstances = {player.Character}
+	weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
+	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster, workspace["CanQuery test"]}
+	
+	-- add some code to avoid clicking on the player's body parts
 	local weaponRaycastResult = workspace:Raycast(Blaster.Handle.Position, directionVector, weaponRaycastParams)
 
 	local hitPosition
 	if weaponRaycastResult then
 		hitPosition = weaponRaycastResult.Position
+
+		-- some tracer statements
+		if weaponRaycastResult.Instance then
+			item = weaponRaycastResult.Instance
+			print("WeaponRaycast Instance:" .. item.Name)
+		end
 
 		-- If a humanoid is found in the model then it's likely a player's character
 		local characterModel = weaponRaycastResult.Instance:FindFirstAncestorOfClass("Model")
@@ -108,7 +123,7 @@ local function OnActivation()
 		if Bullets.Value > 0 then
 			fireWeapon()
 			lastIteration = tick()
-			Bullets.Value = Bullets.Value - 1
+			-- Bullets.Value = Bullets.Value - 1
 		else
 			print("Out of Bullets")
 		end
