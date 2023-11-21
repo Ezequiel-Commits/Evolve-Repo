@@ -1,5 +1,5 @@
 local userInputService = game:GetService("UserInputService")
-local DebounceModule = require(game.ReplicatedStorage.ReplicatedModules.DebounceModule)
+local DebounceModule = require(game.ReplicatedStorage.ModuleScripts.DebounceModule)
 local AbilityRunning = false
 
 -- tick values 
@@ -53,6 +53,8 @@ local function FireAbility(AbilityName)
             AbilityRunning = not AbilityRunning 
 
         end
+    elseif AbilityName == "Attack1" then
+        print("Working so far")
 
     end
 end
@@ -65,6 +67,8 @@ userInputService.InputBegan:Connect(function(input,gpe)
         FireAbility("FireBreath")
     elseif input.KeyCode == Enum.KeyCode.Space then
         FireAbility("MonsterLeap")
+    elseif input.UserInputType.EnumType.MouseButton1 then 
+        FireAbility("Attack1")
 	end
 end)
 

@@ -4,7 +4,7 @@ local item
 
 local userInputService = game:GetService("UserInputService")
 local laserRenderer = require(player.PlayerScripts:WaitForChild("LaserRenderer"))
-local DebounceModule = require(game.ReplicatedStorage.ReplicatedModules.DebounceModule)
+local DebounceModule = require(game.ReplicatedStorage.ModuleScripts.DebounceModule)
 local contextActionService = game:GetService("ContextActionService")
 
 local Blaster = script.Parent

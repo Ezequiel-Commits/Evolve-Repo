@@ -1,6 +1,6 @@
 ---@diagnostic disable: trailing-space
 local replicatedStorage = game.ReplicatedStorage
-Bezier = require(replicatedStorage.ReplicatedModules.BezierModule)
+Bezier = require(replicatedStorage.ModuleScripts.BezierModule)
 local Debris = game:GetService("Debris")
 
 local function ChangePlayerMovement(player, speed)
@@ -116,7 +116,7 @@ local function FireBreathFunc(player)
 end
 
 local function LeapFunc(player)
-	
+
 	local character = player.character or player.characterAdded:wait()
 	local HumanoidRootPart = character:FindFirstChild("HumanoidRootPart")
 	local workspace = game.Workspace

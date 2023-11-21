@@ -4,20 +4,8 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "ReplicatedModules":{
-        "$className":"Folder",
-
-        "BezierModule":{
-          "$path": "src/ModuleScripts/BezierModule.lua"
-        },
-        
-        "RoundModule":{
-          "$path":"src/ModuleScripts/RoundModule.lua"
-        },
-
-        "DebounceModule":{
-          "$path":"src/ModuleScripts/DebounceModule.lua"
-        }
+      "ModuleScripts":{
+        "$path":"src/ModuleScripts"
 
       },
       "BlasterEvents":{
@@ -68,58 +56,26 @@
     },
 
     "ServerScriptService": {
-      "ServerAbilityManager":{
-        "$path": "src/ServerScripts/ServerAbilityManager.server.lua"
-      },
-      "ServerLaserManager":{
-        "$path":"src/ServerScripts/ServerLaserManager.server.lua"
-      },
-      "ServerTesting":{
-        "$path":"src/ServerScripts/ServerTesting.server.lua"
-      },
-      "GameLogic":{
-        "$path":"src/ServerScripts/GameLogic.server.lua"
-      },
-      "ServerMatchmaking":{
-        "$path":"src/ServerScripts/ServerMatchmaking.server.lua"
+      "ServerScripts":{
+        "$path": "src/ServerScripts"
       }
     },
 
     "StarterPack":{
       "Blaster":{
-        "$className":"Tool",
-        
-        "BlasterController":{
-          "$path":"src/ClientScripts/BlasterController.client.lua"
-        }
+        "$className":"Tool"
       }
     },
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "ClientLaserManager":{
-          
-          "$path":"src/ClientScripts/ClientLaserManager.client.lua"
-        },
-        "LaserRenderer":{
-          "$path":"src/ModuleScripts/LaserRenderer.lua"
-        },
-        "ClientAbilityController":{
-          "$path":"src/ClientScripts/ClientAbilityController.client.lua"
-        },
-        "ClientTesting":{
-          "$path":"src/ClientScripts/ClientTesting.client.lua"
-        }
+        "$path":"src/ClientScripts"
       }
     },
 
     "StarterGui":{
       "MainGui":{
         "$className": "ScreenGui",
-        
-        "ClientMainGui":{
-          "$path":"src/ClientScripts/ClientMainGui.client.lua"
-        },
 
         "TimeStatus":{
           "$className": "TextLabel"
@@ -127,11 +83,7 @@
 
       },
       "QueueGui":{
-        "$className": "ScreenGui",
-
-        "ClientMatchmaking":{
-          "$path":"src/ClientScripts/ClientMatchmaking.client.lua"
-        }
+        "$className": "ScreenGui"
       }
     },
 
