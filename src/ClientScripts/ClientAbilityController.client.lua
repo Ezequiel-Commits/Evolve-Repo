@@ -1,3 +1,4 @@
+local Players = game:GetService("Players")
 local userInputService = game:GetService("UserInputService")
 local DebounceModule = require(game.ReplicatedStorage.ModuleScripts.DebounceModule)
 local AbilityRunning = false
@@ -54,7 +55,19 @@ local function FireAbility(AbilityName)
 
         end
     elseif AbilityName == "Attack1" then
-        print("Working so far")
+        local Attack1Animation = Players.LocalPlayer.Character.AnimSaves:WaitForChild("Attack 1")
+        Attack1Animation.AnimationId = "rbxassetid://15413449566"
+        local humanoid = Players.LocalPlayer.Character:WaitForChild("Humanoid")
+
+        if humanoid then 
+            local animator = humanoid:FindFirstChildOfClass("Animator")
+            if animator then
+                -- Unique syntax to run the animation
+                local animationTrack = animator:LoadAnimation(Attack1Animation)
+                animationTrack:Play()
+                return animationTrack
+            end
+        end
 
     end
 end
@@ -67,9 +80,7 @@ userInputService.InputBegan:Connect(function(input,gpe)
         FireAbility("FireBreath")
     elseif input.KeyCode == Enum.KeyCode.Space then
         FireAbility("MonsterLeap")
-    elseif input.UserInputType.EnumType.MouseButton1 then 
+    elseif input.UserInputType == Enum.UserInputType.MouseButton1 then 
         FireAbility("Attack1")
 	end
 end)
-
-

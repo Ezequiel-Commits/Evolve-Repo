@@ -18,4 +18,4 @@ wait(5)
 -- this isn't working every time 
 local ChosenMonster = RoundModule.ChooseMonster(ReadyPlayers)
 
--- RoundModule.DressMonster(ChosenMonster)
+RoundModule.DressMonster(ChosenMonster)
