@@ -65,9 +65,17 @@ local function GetWorldMousePosition()
 	-- still a bit confusing
 	local screenToWorldRay = workspace.CurrentCamera:ViewportPointToRay(mouseLocation.X, mouseLocation.Y)
 	local directionVector = screenToWorldRay.Direction * maxMouseDistance
-
+	
+	--[[Creeepycanary's notes:]]--
+	--[[I added this lines right below ]]--
+	-- local weaponRaycastParams = RaycastParams.new()
+	-- weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
+	-- weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster, workspace["CanQuery test"]}
+	--[[]]--
+	
 	local raycastResult = workspace:Raycast(screenToWorldRay.Origin, directionVector)
-
+	--[[And use Params in the raycast]]--
+	
 	if raycastResult then  
 		return raycastResult.Position
 	else
