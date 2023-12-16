@@ -1,6 +1,6 @@
 local players = game.Players
 local ReadyPlayers = {}
-local RoundModule = require(game.ReplicatedStorage.ModuleScripts:FindFirstChild("RoundModule"))
+local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
 
 local function AddPlayerToTable(player)
     -- add all players in the lobby to a table

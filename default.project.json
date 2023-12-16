@@ -63,7 +63,10 @@
 
     "StarterPack":{
       "Blaster":{
-        "$className":"Tool"
+        "$className":"Tool",
+        "BlasterController":{
+          "$path": "src/BlasterController.client.lua"
+        }
       }
     },
 

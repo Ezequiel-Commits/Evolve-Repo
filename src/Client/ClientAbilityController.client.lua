@@ -1,6 +1,6 @@
 local Players = game:GetService("Players")
 local userInputService = game:GetService("UserInputService")
-local DebounceModule = require(game.ReplicatedStorage.ModuleScripts.DebounceModule)
+local DebounceModule = require(game.ReplicatedStorage.Shared.DebounceModule)
 local AbilityRunning = false
 
 -- tick values 

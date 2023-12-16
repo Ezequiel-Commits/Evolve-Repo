@@ -4,7 +4,7 @@ local item
 
 local userInputService = game:GetService("UserInputService")
 local laserRenderer = require(player.PlayerScripts:WaitForChild("LaserRenderer"))
-local DebounceModule = require(game.ReplicatedStorage.ModuleScripts.DebounceModule)
+local DebounceModule = require(game.ReplicatedStorage.Shared.DebounceModule)
 local contextActionService = game:GetService("ContextActionService")
 
 local Blaster = script.Parent
@@ -68,12 +68,12 @@ local function GetWorldMousePosition()
 	
 	--[[Creeepycanary's notes:]]--
 	--[[I added this lines right below ]]--
-	-- local weaponRaycastParams = RaycastParams.new()
-	-- weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
-	-- weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster, workspace["CanQuery test"]}
+	local weaponRaycastParams = RaycastParams.new()
+	weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
+	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster}
 	--[[]]--
 	
-	local raycastResult = workspace:Raycast(screenToWorldRay.Origin, directionVector)
+	local raycastResult = workspace:Raycast(screenToWorldRay.Origin, directionVector, weaponRaycastParams)
 	--[[And use Params in the raycast]]--
 	
 	if raycastResult then  
@@ -92,7 +92,7 @@ local function fireWeapon()
 
 	local weaponRaycastParams = RaycastParams.new()
 	weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
-	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster, workspace["CanQuery test"]}
+	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster}
 	
 	-- add some code to avoid clicking on the player's body parts
 	local weaponRaycastResult = workspace:Raycast(Blaster.Handle.Position, directionVector, weaponRaycastParams)
@@ -101,7 +101,7 @@ local function fireWeapon()
 	if weaponRaycastResult then
 		hitPosition = weaponRaycastResult.Position
 
-		-- some tracer statements
+		-- a tracer statement
 		if weaponRaycastResult.Instance then
 			item = weaponRaycastResult.Instance
 			print("WeaponRaycast Instance:" .. item.Name)

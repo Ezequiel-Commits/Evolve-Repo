@@ -2,7 +2,7 @@ local memoryStore = game:GetService("MemoryStoreService")
 local Queue = memoryStore:GetSortedMap("Queue")
 local teleportService = game:GetService("TeleportService")
 
-local RoundModule = require(game.ReplicatedStorage.ModuleScripts:FindFirstChild("RoundModule"))
+local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
 local maxPlayers = 2
 
 local Maps = {
