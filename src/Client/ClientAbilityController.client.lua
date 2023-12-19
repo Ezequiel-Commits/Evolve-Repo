@@ -31,7 +31,7 @@ local function FireAbility(AbilityName)
     elseif AbilityName == "RockThrow" then
         
         local CastingTime = 2 
-        local AbilityCooldown = 5 + CastingTime
+        local AbilityCooldown = 0 + CastingTime
         if DebounceModule.Debounce(TimeOfPreviousRock, AbilityCooldown) and DebounceModule.NoAbilityRunning(AbilityRunning) then
             
             AbilityRunning = not AbilityRunning
@@ -81,6 +81,6 @@ userInputService.InputBegan:Connect(function(input,gpe)
     elseif input.KeyCode == Enum.KeyCode.Space then
         FireAbility("MonsterLeap")
     elseif input.UserInputType == Enum.UserInputType.MouseButton1 then 
-        FireAbility("Attack1")
+        -- FireAbility("Attack1")
 	end
 end)

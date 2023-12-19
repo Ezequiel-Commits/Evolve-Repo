@@ -3,7 +3,7 @@ local replicatedStorage = game.ReplicatedStorage
 Bezier = require(replicatedStorage.Shared.BezierModule)
 local Debris = game:GetService("Debris")
 
-local function ChangePlayerMovement(player, speed)
+local function ChangePlayerMovement(player, speed, bool)
 	-- given a player, number, and boolean, restrict the player's movement
 	
 	assert(typeof(speed) == "number","Pass a number")
@@ -12,23 +12,20 @@ local function ChangePlayerMovement(player, speed)
 	local humanoid = character:FindFirstChild("Humanoid")
 
 	humanoid.WalkSpeed = speed
-	-- how can I stop players from jumping during an ability?
-
+	humanoid.AutoRotate = bool
 end
 
 local function DamageFunc(Hitbox, damage)
 	-- given a hitbox and dps, damage any other players who touch the ability
-	
-	-- the debounce for this function 
 	wait(.5)
 
 	local parts = Hitbox:GetTouchingParts()
-	
 	local humanoidsDamaged = {}
 	
 	for i, part in pairs(parts) do
 		if part.Parent:FindFirstChild("Humanoid") and not humanoidsDamaged[part.Parent.Humanoid] then
 			
+			-- do I ever reset the table?
 			humanoidsDamaged[part.Parent.Humanoid] = true
 			part.Parent.Humanoid:TakeDamage(damage)
 		end
@@ -37,11 +34,11 @@ local function DamageFunc(Hitbox, damage)
 end
 
 local function RockThrowfunc(player)
-
-	ChangePlayerMovement(player, 0)
+	ChangePlayerMovement(player, 0, false)
 
 	local character = player.character or player.CharacterAdded:wait()
 	
+	-- where does the rock go? 
     local rock = replicatedStorage.AbilityFolder.RockThrowFolder.Rock:Clone()
     rock.Parent = game.Workspace
     rock.Part.Anchored = true
@@ -74,13 +71,13 @@ local function RockThrowfunc(player)
 	
 	-- cleanup
 	game.Debris:AddItem(rock, 4.5) 
-	ChangePlayerMovement(player, 16)
+	ChangePlayerMovement(player, 16, true)
 
 end
 
 local function FireBreathFunc(player)
 	
-	ChangePlayerMovement(player, 5)
+	ChangePlayerMovement(player, 5, true)
 
 	local character = player.Character or player.CharacterAdded:wait()
 	local head = character.Head
@@ -111,7 +108,7 @@ local function FireBreathFunc(player)
 	
 	-- cleanup 
 	game.Debris:AddItem(Model, 7.5)
-	ChangePlayerMovement(player, 16)
+	ChangePlayerMovement(player, 16, true)
 	
 end
 
