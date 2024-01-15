@@ -1,4 +1,3 @@
----@diagnostic disable: trailing-space
 local replicatedStorage = game.ReplicatedStorage
 Bezier = require(replicatedStorage.Shared.BezierModule)
 local Debris = game:GetService("Debris")
