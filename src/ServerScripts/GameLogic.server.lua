@@ -4,21 +4,6 @@ local Status = game.ReplicatedStorage:WaitForChild("Status")
 
 while true do
 	
-	repeat -- wait to start the game until there are enough players 
-		local availablePlayers = {}
-		
-		for i, plr in pairs(game.Players:GetPlayers()) do
-			if not plr:FindFirstChild("InMenu") then
-				table.insert(availablePlayers,plr)
-			end
-		end
-		
-		Status.Value = "2 'ready' players needed ("..#availablePlayers.."/2)"
-		
-		wait(2)
-		
-	until #availablePlayers >= 2 
-	
 	Round.intermission(5) 
 	
 	local chosenChapter = Round.SelectChapter() 

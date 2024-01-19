@@ -1,6 +1,5 @@
 {
     "robloxLsp.diagnostics.disable": [
-        "trailing-space",
-        "undefined-global"
+        "trailing-space"
     ]
 }

@@ -10,17 +10,18 @@ function module.intermission (length)
 	end
 end
 
-function module.SelectChapter()
+function module.SelectChapter(Maps)
 	local rand = Random.new()
-	local chapters = game.ReplicatedStorage.Chapters:GetChildren() -- Table of all map models
-	local chosenChapter = chapters[rand:NextInteger(1,#chapters)] 
+	-- pass a table of all the maps
+	local chosenMap = Maps[rand:NextInteger(1,#Maps)] 
 	
-	return chosenChapter
+	return chosenMap
 end
 
 function module.ChoosePiggy(players)
 	
 	local RandomObj = Random.new()
+---@diagnostic disable-next-line: undefined-global
 	chosenPiggy = players[RandomObj:NextInteger(1,#players)] 
 	
 	return chosenPiggy

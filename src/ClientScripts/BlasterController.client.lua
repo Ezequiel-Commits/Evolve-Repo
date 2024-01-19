@@ -1,11 +1,10 @@
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local item
-local Mouse = player:GetMouse()
 
 local userInputService = game:GetService("UserInputService")
 local laserRenderer = require(player.PlayerScripts:WaitForChild("LaserRenderer"))
-local DebounceModule = require(game.ReplicatedStorage.Shared.DebounceModule)
+local DebounceModule = require(game.ReplicatedStorage.ModuleScripts.DebounceModule)
 local contextActionService = game:GetService("ContextActionService")
 
 local Blaster = script.Parent
@@ -19,14 +18,6 @@ maxLaserDistance = 500
 local ReloadAction = "reloadWeapon"
 local reloadAnimation = Blaster:WaitForChild("ReloadAnimation")
 reloadAnimation.AnimationId = "rbxassetid://14373884395"
-
-local Part = Instance.new("Part", workspace)
-Part.Name = player.Name.."_Part"
-Part.Anchored = true
-Part.CanCollide = false
-Part.CastShadow = false
-Part.Size = Vector3.one
-Part.Transparency = 1
 
 local function reload(char, animation)
 	-- create a function to be binded to 
@@ -77,40 +68,40 @@ local function GetWorldMousePosition()
 	
 	--[[Creeepycanary's notes:]]--
 	--[[I added this lines right below ]]--
-	local weaponRaycastParams = RaycastParams.new()
-	weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
-	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster}
+	-- local weaponRaycastParams = RaycastParams.new()
+	-- weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
+	-- weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster, workspace["CanQuery test"]}
 	--[[]]--
 	
-	local raycastResult = workspace:Raycast(screenToWorldRay.Origin, directionVector, weaponRaycastParams)
+	local raycastResult = workspace:Raycast(screenToWorldRay.Origin, directionVector)
 	--[[And use Params in the raycast]]--
 	
-	--[[if raycastResult then  
+	if raycastResult then  
 		return raycastResult.Position
 	else
 		return screenToWorldRay.Origin + screenToWorldRay.Direction
-	end]]--
-	
-	return Part.Position
+	end
 end
 
 local function fireWeapon()
 	local mouseLocation = GetWorldMousePosition()
 
+	-- the bug is somewhere here. At times the ray will form behind the player
 	local targetLocation = (mouseLocation - Blaster.Handle.Position).Unit
 	local directionVector = targetLocation * maxLaserDistance
 
 	local weaponRaycastParams = RaycastParams.new()
 	weaponRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
-	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster}
+	weaponRaycastParams.FilterDescendantsInstances = {player.Character, Blaster, workspace["CanQuery test"]}
 	
-	local weaponRaycastResult = workspace:Raycast(Blaster.Handle.Position, Part.Position, weaponRaycastParams)
+	-- add some code to avoid clicking on the player's body parts
+	local weaponRaycastResult = workspace:Raycast(Blaster.Handle.Position, directionVector, weaponRaycastParams)
 
 	local hitPosition
 	if weaponRaycastResult then
 		hitPosition = weaponRaycastResult.Position
 
-		-- a tracer statement
+		-- some tracer statements
 		if weaponRaycastResult.Instance then
 			item = weaponRaycastResult.Instance
 			print("WeaponRaycast Instance:" .. item.Name)
@@ -146,12 +137,6 @@ local function OnActivation()
 		end
 	end
 end
-
-Mouse.Move:Connect(function()
-	if Part ~= nil then
-		Part.Position = Blaster.Handle.Position + (Mouse.Hit.Position - Blaster.Handle.Position).Unit * 2000
-	end
-end)
 
 Blaster.Equipped:Connect(onEquipped)
 Blaster.Unequipped:Connect(unEquipped)

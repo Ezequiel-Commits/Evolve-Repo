@@ -4,8 +4,8 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "Shared":{
-        "$path":"src/Shared"
+      "ModuleScripts":{
+        "$path":"src/ModuleScripts"
 
       },
       "BlasterEvents":{
@@ -57,22 +57,19 @@
 
     "ServerScriptService": {
       "ServerScripts":{
-        "$path": "src/Server"
+        "$path": "src/ServerScripts"
       }
     },
 
     "StarterPack":{
       "Blaster":{
-        "$className":"Tool",
-        "BlasterController":{
-          "$path": "src/BlasterController.client.lua"
-        }
+        "$className":"Tool"
       }
     },
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "$path":"src/Client"
+        "$path":"src/ClientScripts"
       }
     },
 
