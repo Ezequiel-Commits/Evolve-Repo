@@ -4,8 +4,8 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
-      "ModuleScripts":{
-        "$path":"src/ModuleScripts"
+      "Shared":{
+        "$path":"src/Shared"
 
       },
       "BlasterEvents":{
@@ -56,8 +56,8 @@
     },
 
     "ServerScriptService": {
-      "ServerScripts":{
-        "$path": "src/ServerScripts"
+      "Server":{
+        "$path": "src/Server"
       }
     },
 
@@ -69,7 +69,7 @@
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "$path":"src/ClientScripts"
+        "$path":"src/Client"
       }
     },
 
