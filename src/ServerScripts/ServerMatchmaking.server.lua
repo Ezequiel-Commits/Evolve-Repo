@@ -3,53 +3,44 @@ local Queue = memoryStore:GetSortedMap("Queue")
 local teleportService = game:GetService("TeleportService")
 
 local RoundModule = require(game.ReplicatedStorage.ModuleScripts:FindFirstChild("RoundModule"))
-local maxPlayers = 2
+local maxPlayers = 5
 
 local Maps = {
     Armory = 15030130019
 }
 
-local ChosenMap = RoundModule.SelectRandomMap(Maps)
+local ChosenMap = RoundModule.SelectChapter(Maps)
 
 local function addToQueue(player)
-
-    --3. insert the UserIds of all people in queue to a table
+    -- insert the UserIds of all people in queue to a table
     Queue:SetAsync(player.UserId, player.UserId, 100)
-
 end
 
 local function removeFromQueue(player)
-
     Queue:RemoveAsync(player.UserId)
-
 end
 
 local cooldown = {}
 
 local function EditQueue(player, QueueButtonText)
-    --Add and remove players from queue when they press the Queue button
-
-    print(QueueButtonText)
+    -- Add and remove players from queue when they press the Queue button
     if cooldown[player] then return end
 	cooldown[player] = true
-	
-    -- err in favor of the customer 
+
 	if QueueButtonText == "IN QUEUE" then
 		pcall(addToQueue, player)
 	elseif QueueButtonText == "QUEUE" then
 		pcall(removeFromQueue, player)
 	end
 	
-	wait(1)
+	task.wait(1)
 	cooldown[player] = false
-
 end
 
 game.Players.PlayerRemoving:Connect(removeFromQueue)
+game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
-game.ReplicatedStorage.TeleportEvent.OnServerEvent:Connect(EditQueue)
-
-while wait(1) do
+while task.wait(1) do
     
     local success, queuedPlayers = pcall(function()
 
@@ -87,7 +78,7 @@ while wait(1) do
                     
                         if success then
 
-                            wait(1)
+                            task.wait(1)
 
                             pcall(function()
 
