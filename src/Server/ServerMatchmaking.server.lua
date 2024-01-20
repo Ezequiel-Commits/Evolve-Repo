@@ -1,3 +1,5 @@
+-- The serverside script for matchmaking in the main menu
+-- This doesn't have much to do with the game logic besides getting the player into the game. 
 local memoryStore = game:GetService("MemoryStoreService")
 local Queue = memoryStore:GetSortedMap("Queue")
 local teleportService = game:GetService("TeleportService")
