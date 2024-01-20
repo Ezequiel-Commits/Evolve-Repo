@@ -46,10 +46,6 @@
         }
       },
 
-      "TimeStatus":{
-        "$className":"IntValue"
-      },
-
       "TeleportEvent":{
         "$className":"RemoteEvent"
       }
@@ -74,14 +70,6 @@
     },
 
     "StarterGui":{
-      "MainGui":{
-        "$className": "ScreenGui",
-
-        "TimeStatus":{
-          "$className": "TextLabel"
-        }
-
-      },
       "QueueGui":{
         "$className": "ScreenGui"
       }
