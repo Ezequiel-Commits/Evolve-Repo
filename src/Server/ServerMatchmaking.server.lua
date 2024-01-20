@@ -28,13 +28,11 @@ local function EditQueue(player, QueueButtonText)
     -- Add and remove players from queue when they press the Queue button
     if cooldown[player] then return end
 	cooldown[player] = true
-
 	if QueueButtonText == "IN QUEUE" then
 		pcall(addToQueue, player)
 	elseif QueueButtonText == "QUEUE" then
 		pcall(removeFromQueue, player)
 	end
-	
 	task.wait(1)
 	cooldown[player] = false
 end
@@ -43,26 +41,17 @@ game.Players.PlayerRemoving:Connect(removeFromQueue)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
 while task.wait(1) do
-    
     local success, queuedPlayers = pcall(function()
-
         return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
-
     end)
-
     if success then
-        
         local amountQueued = 0
-
         for i, data in pairs(queuedPlayers) do
             amountQueued += 1
         end
-
         if amountQueued == maxPlayers then
-           
             -- access a table to get the players
             for i, data in pairs(queuedPlayers) do 
-
                 local UserId = data.value
                 local player = game.Players:GetPlayerByUserId(UserId)
 
@@ -75,24 +64,16 @@ while task.wait(1) do
                         --local reservedServerCode = teleportService:ReserveServer(ChosenMap)
                         --teleportService:TeleportToPrivateServer(ChosenMap, reservedServerCode, {player})
                     end)
-
                    local function removeAfterLeaving()
-                    
                         if success then
-
                             task.wait(1)
-
                             pcall(function()
-
                                 Queue:RemoveAsync(data.key)
-                            
                             end)
                         end
                     end
-
                     local wrappedFunction = coroutine.wrap(removeAfterLeaving)
                     wrappedFunction()
-
                 end
             end
         end

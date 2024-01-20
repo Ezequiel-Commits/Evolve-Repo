@@ -5,18 +5,10 @@ local Status = game.ReplicatedStorage:WaitForChild("Status")
 
 while true do
 	
-	-- in intermission for loading players in? 
+	-- An intermission for loading players in? 
 	Round.intermission(5)
 
-	local contestants = {} 
-
 	local chosenPiggy = Round.ChoosePiggy(contestants) 
-
-	for i, v in pairs(contestants) do 
-		if v == chosenPiggy then
-			table.remove(contestants,i) -- remove the chosen piggy 
-		end
-	end
 
 	for i, v in pairs(contestants) do 
 		if v ~= chosenPiggy then

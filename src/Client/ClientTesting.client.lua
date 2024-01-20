@@ -1,4 +1,4 @@
-local userInputService = game:GetService("UserInputService")
+--[[local userInputService = game:GetService("UserInputService")
 local runService = game:GetService("RunService")
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
@@ -30,4 +30,4 @@ local function OnLeftMouseButtonClick(Input, Processed)
 end
 
 -- runService.RenderStepped:Connect(Raycast)
-userInputService.InputBegan:Connect(OnLeftMouseButtonClick)
+userInputService.InputBegan:Connect(OnLeftMouseButtonClick)]]
