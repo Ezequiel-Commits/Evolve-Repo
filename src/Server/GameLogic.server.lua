@@ -1,12 +1,12 @@
 -- The main script for creating the round loop and running it continuously(I.E Game logic)
 -- This should be in each map rather than in the main menu 
 local Round = require(game.ReplicatedStorage.Shared.RoundModule)
-local Status = game.ReplicatedStorage:WaitForChild("Status")
+-- local Status = game.ReplicatedStorage:WaitForChild("Status")
 
-while true do
+--[[while true do
 	
 	-- An intermission for loading players in? 
-	Round.intermission(5)
+	-- Round.intermission(5)
 
 	local chosenPiggy = Round.ChoosePiggy(contestants) 
 
@@ -55,4 +55,4 @@ while true do
 	Round.RemoveTags()
 	
 	wait(2)
-end
+end]]

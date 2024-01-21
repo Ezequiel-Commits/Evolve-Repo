@@ -1,12 +1,12 @@
 -- A module containing the bulk of the code used in the GameLogic script
 local module = {}
 
-local status = game.ReplicatedStorage:WaitForChild("Status") -- A value to be displayed in the main gui
+-- local status = game.ReplicatedStorage:WaitForChild("Status") 
 
 function module.intermission (length)
 	for i = length,0,-1 do 
 		status.Value = "Next round starts in "..i.." seconds" 
-		wait(1)
+		task.wait(1)
 	end
 end
 

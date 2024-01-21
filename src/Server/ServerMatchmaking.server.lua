@@ -5,13 +5,14 @@ local Queue = memoryStore:GetSortedMap("Queue")
 local teleportService = game:GetService("TeleportService")
 
 local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
-local maxPlayers = 5
+local maxPlayers = 1
 
 local Maps = {
     Armory = 15030130019
 }
 
 local ChosenMap = RoundModule.SelectChapter(Maps)
+print(ChosenMap)
 
 local function addToQueue(player)
     -- insert the UserIds of all people in queue to a table
@@ -41,6 +42,7 @@ game.Players.PlayerRemoving:Connect(removeFromQueue)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
 while task.wait(1) do
+    print("Main loop connecting")
     local success, queuedPlayers = pcall(function()
         return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
     end)
@@ -58,6 +60,7 @@ while task.wait(1) do
                 if player then 
                     -- reserve a server so that the players are teleported to the same place 
                     local success, err = pcall(function()
+                        print("Final teleportation check")
                         teleportService:TeleportAsync(ChosenMap, {player})
                         --local teleportOptions = Instance.new("TeleportOptions")
                         --teleportOptions.ShouldReserveServer = true
