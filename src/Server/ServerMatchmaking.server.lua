@@ -5,17 +5,16 @@ local Queue = memoryStore:GetSortedMap("Queue")
 local teleportService = game:GetService("TeleportService")
 
 local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
-local maxPlayers = 1
+local maxPlayers = 2
 
 local Maps = {
     Armory = 15030130019
 }
 
-local ChosenMap = RoundModule.SelectChapter(Maps)
+local ChosenMap = RoundModule.SelectMap(Maps)
 print(ChosenMap)
 
 local function addToQueue(player)
-    -- insert the UserIds of all people in queue to a table
     Queue:SetAsync(player.UserId, player.UserId, 100)
 end
 
@@ -42,7 +41,6 @@ game.Players.PlayerRemoving:Connect(removeFromQueue)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
 while task.wait(1) do
-    print("Main loop connecting")
     local success, queuedPlayers = pcall(function()
         return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
     end)
@@ -52,20 +50,13 @@ while task.wait(1) do
             amountQueued += 1
         end
         if amountQueued == maxPlayers then
-            -- access a table to get the players
             for i, data in pairs(queuedPlayers) do 
                 local UserId = data.value
                 local player = game.Players:GetPlayerByUserId(UserId)
 
                 if player then 
-                    -- reserve a server so that the players are teleported to the same place 
                     local success, err = pcall(function()
-                        print("Final teleportation check")
                         teleportService:TeleportAsync(ChosenMap, {player})
-                        --local teleportOptions = Instance.new("TeleportOptions")
-                        --teleportOptions.ShouldReserveServer = true
-                        --local reservedServerCode = teleportService:ReserveServer(ChosenMap)
-                        --teleportService:TeleportToPrivateServer(ChosenMap, reservedServerCode, {player})
                     end)
                    local function removeAfterLeaving()
                         if success then

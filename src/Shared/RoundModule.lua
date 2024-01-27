@@ -10,38 +10,40 @@ function module.intermission (length)
 	end
 end
 
-function module.SelectChapter(Maps)
-	local rand = Random.new()
-	-- pass a table of all the maps
-	local chosenMap = Maps[rand:NextInteger(1,#Maps)] 
+function module.SelectMap(Maps)
+	local MapTable = {}
 	
-	return chosenMap
+	-- convert the given dictionary into a table 
+	for i, MapId in pairs(Maps) do
+		table.insert(MapTable, MapId)
+	end
+
+	-- return a random MapId using the new table 
+	local RandomIndex = math.random(1, #MapTable)
+	local RandomMapValue = MapTable[RandomIndex]
+
+	return RandomMapValue
 end
 
 function module.ChoosePiggy(players)
 	
 	local RandomObj = Random.new()
----@diagnostic disable-next-line: undefined-global
+	---@diagnostic disable-next-line: undefined-global
 	chosenPiggy = players[RandomObj:NextInteger(1,#players)] 
 	
 	return chosenPiggy
 end
 
-function module.dressPiggy(Piggy) 
+function module.dressMonster(ChosenMonster) 
 	
-	local character 
-	
-	if Piggy.EquippedSkin.Value ~= "" then
-		if game.ReplicatedStorage.Skins:FindFirstChild(Piggy.EquippedSkin.Value) then
-			character = game.ReplicatedStorage.Skins[Piggy.EquippedSkin.Value]:Clone()
-		end
-	else
-		character = game.ReplicatedStorage.Skins.Piggy:Clone()
-	end
-	
-	character.Name = Piggy.Name 
-	Piggy.Character = character 
-	character.Parent = workspace 
+	local MonsterCharacter = game.ReplicatedStorage.Monsters:FindFirstChild("Goliath")
+
+	MonsterCharacter.Name = ChosenMonster.Name
+	ChosenMonster.Character = MonsterCharacter
+	MonsterCharacter.Parent = workspace
+
+	MonsterCharacter:PivotTo(CFrame.new(0,25,0))
+
 end
 
 function module.TeleportPiggy(player)  
