@@ -1,14 +1,14 @@
--- The serverside script for matchmaking in the main menu
--- This doesn't have much to do with the game logic besides getting the player into the game. 
+-- The serverside script for matchmaking in the main menu 
 local memoryStore = game:GetService("MemoryStoreService")
 local Queue = memoryStore:GetSortedMap("Queue")
 local teleportService = game:GetService("TeleportService")
-
+local dataStoreService = game:GetService("DataStoreService")
+local dataStore = dataStoreService:GetDataStore("Tags")
 local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
-local maxPlayers = 2
+local maxPlayers = 1
 
 local Maps = {
-    Armory = 15030130019
+    Armory = 15030130019,
 }
 
 local ChosenMap = RoundModule.SelectMap(Maps)
@@ -25,7 +25,6 @@ end
 local cooldown = {}
 
 local function EditQueue(player, QueueButtonText)
-    -- Add and remove players from queue when they press the Queue button
     if cooldown[player] then return end
 	cooldown[player] = true
 	if QueueButtonText == "IN QUEUE" then
@@ -40,6 +39,29 @@ end
 game.Players.PlayerRemoving:Connect(removeFromQueue)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
+game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(function(player, QueueButtonText, TagName)
+    -- save to a datastore
+    local data = {}
+    data.TagName = TagName
+    local success, error = pcall(dataStore.SetAsync, dataStore, player.UserId, data)
+end)
+
+game.players.PlayerAdded:Connect(function(player)
+    local data
+	
+	local success, errormsg = pcall(function() 
+		data = dataStore:GetAsync(player.UserId)
+        print(data)
+	end)
+
+    if data ~= nil then 
+        local Tag = Instance.new("StringValue")
+	    Tag.Name = data.TagName
+	    Tag.Parent = player
+    end
+end)
+
+-- Main matchmaking loop 
 while task.wait(1) do
     local success, queuedPlayers = pcall(function()
         return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
@@ -55,9 +77,7 @@ while task.wait(1) do
                 local player = game.Players:GetPlayerByUserId(UserId)
 
                 if player then 
-                    local success, err = pcall(function()
-                        teleportService:TeleportAsync(ChosenMap, {player})
-                    end)
+                    local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player})
                    local function removeAfterLeaving()
                         if success then
                             task.wait(1)
