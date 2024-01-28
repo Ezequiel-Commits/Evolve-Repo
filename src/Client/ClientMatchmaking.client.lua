@@ -1,8 +1,14 @@
-local QueueButton = script.Parent:WaitForChild("QueueButton")
+game.players.PlayerAdded:Connect(function(player)
+    local data
+	
+	local success, errormsg = pcall(function() 
+		data = dataStore:GetAsync(player.UserId)
+        print(data)
+	end)
 
-QueueButton.MouseButton1Click:Connect(function()
-    -- I don't really understand this change in text values 
-    QueueButton.QueueText.Text = QueueButton.QueueText.Text == "QUEUE" and "IN QUEUE" or "QUEUE"
-    game.ReplicatedStorage:WaitForChild("QueueEvent"):FireServer(QueueButton.QueueText.Text)
-
+    if data ~= nil then 
+        local Tag = Instance.new("StringValue")
+	    Tag.Name = data.TagName
+	    Tag.Parent = player
+    end
 end)
