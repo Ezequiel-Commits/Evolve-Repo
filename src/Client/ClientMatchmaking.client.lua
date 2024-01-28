@@ -1,3 +1,6 @@
+local dataStoreService = game:GetService("DataStoreService")
+local dataStore = dataStoreService:GetDataStore("Tags")
+
 game.players.PlayerAdded:Connect(function(player)
     local data
 	
