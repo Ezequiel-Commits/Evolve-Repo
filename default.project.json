@@ -45,13 +45,16 @@
           }
         }
       },
+      "Misc":{
+        "$className":"Folder",
 
-      "TimeStatus":{
-        "$className":"IntValue"
-      },
+        "TimeStatus":{
+          "$className":"IntValue"
+        },
 
-      "TeleportEvent":{
-        "$className":"RemoteEvent"
+        "TeleportEvent":{
+          "$className":"RemoteEvent"
+        }
       }
     },
 
@@ -69,7 +72,11 @@
 
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "$path":"src/Client"
+        "$path":"src/Client", 
+
+        "Evolved":{
+          "$className":"IntValue"
+        }
       }
     },
 
