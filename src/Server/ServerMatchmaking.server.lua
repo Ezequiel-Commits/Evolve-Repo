@@ -8,7 +8,7 @@ local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundM
 local maxPlayers = 1
 
 local Maps = {
-    Armory = 15030130019,
+    Armory = 16150729763,
 }
 
 local ChosenMap = RoundModule.SelectMap(Maps)
@@ -44,21 +44,6 @@ game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(function(player, QueueBu
     local data = {}
     data.TagName = TagName
     local success, error = pcall(dataStore.SetAsync, dataStore, player.UserId, data)
-end)
-
-game.players.PlayerAdded:Connect(function(player)
-    local data
-	
-	local success, errormsg = pcall(function() 
-		data = dataStore:GetAsync(player.UserId)
-        print(data)
-	end)
-
-    if data ~= nil then 
-        local Tag = Instance.new("StringValue")
-	    Tag.Name = data.TagName
-	    Tag.Parent = player
-    end
 end)
 
 -- Main matchmaking loop 
