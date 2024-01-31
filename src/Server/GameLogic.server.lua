@@ -1,40 +1,14 @@
 -- The main script for creating the round loop and running it continuously(I.E Game logic)
-local Round = require(script.RoundModule)
-local Status = game.ReplicatedStorage:WaitForChild("Status")
+-- This should be in each map rather than in the main menu 
+local Round = require(game.ReplicatedStorage.Shared.RoundModule)
+-- local Status = game.ReplicatedStorage:WaitForChild("Status")
 
-while true do
+--[[while true do
 	
-	Round.intermission(5) 
-	
-	local chosenChapter = Round.SelectChapter() 
-
-	local clonedChapter = chosenChapter:Clone() -- create a clone of the map
-	clonedChapter.Name = "Map" 
-	clonedChapter.Parent = game.Workspace
-	
-	wait(2)
-	
-	if clonedChapter:FindFirstChild("Doors") then 
-		Door.ActivateDoors(clonedChapter.Doors) -- pass the folder containing the doors
-	else
-		warn("Fatal error: Doors folder required")
-	end
-
-	local contestants = {} -- Create a table 
-
-	for i, v in pairs(game.Players:GetPlayers()) do -- add every active player into the table
-		if not v:FindFirstChild("InMenu") then
-			table.insert(contestants, v)
-		end
-	end
+	-- An intermission for loading players in? 
+	-- Round.intermission(5)
 
 	local chosenPiggy = Round.ChoosePiggy(contestants) 
-
-	for i, v in pairs(contestants) do 
-		if v == chosenPiggy then
-			table.remove(contestants,i) -- remove the chosen piggy 
-		end
-	end
 
 	for i, v in pairs(contestants) do 
 		if v ~= chosenPiggy then
@@ -81,4 +55,4 @@ while true do
 	Round.RemoveTags()
 	
 	wait(2)
-end
+end]]
