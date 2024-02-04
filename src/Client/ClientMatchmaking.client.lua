@@ -7,8 +7,6 @@ QueueButton.MouseButton1Click:Connect(function()
     SelectionGui.Enabled = not SelectionGui.Enabled
 end)
 
--- a couple of edge cases to work through with these two functions 
--- I could re-use some old piggy code 
 local function Hunter()
     local Tag = Instance.new("StringValue")
 	Tag.Name = "Hunter"
