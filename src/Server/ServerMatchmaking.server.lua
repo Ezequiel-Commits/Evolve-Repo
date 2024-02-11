@@ -6,9 +6,11 @@ local teleportService = game:GetService("TeleportService")
 local dataStoreService = game:GetService("DataStoreService")
 local dataStore = dataStoreService:GetDataStore("Tags")
 local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
-local Monster = 1
-local Hunters = 2
+local MonsterMax = 1
+local Hunters = 1
+local code
 
+-- a dictionary of maps
 local Maps = {
     Armory = 16150729763,
 }
@@ -68,14 +70,16 @@ game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(function(player, QueueBu
 end)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
-local function Teleporting(amountQueued, queue, maxPlayers, queuedPlayers)
+local function TeleportHunters(amountQueued, queue, maxPlayers, queuedPlayers)
     if amountQueued == maxPlayers  then
         for i, data in pairs(queuedPlayers) do 
             local UserId = data.value
             local player = game.Players:GetPlayerByUserId(UserId)
 
             if player then 
-                local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player})
+                local teleportOptions = Instance.new("TeleportOptions")
+                teleportOptions.ReservedServerAccessCode = code
+                local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player}, teleportOptions)
                local function removeAfterLeaving()
                     if success then
                         task.wait(1)
@@ -91,7 +95,37 @@ local function Teleporting(amountQueued, queue, maxPlayers, queuedPlayers)
     end
 end
 
-local function addToHunterQueue()
+local function TeleportMonster(amountQueued, queue, maxPlayers, queuedPlayers)
+    -- I don't think I need to use parameters anymore 
+    if amountQueued == maxPlayers  then
+        for i, data in pairs(queuedPlayers) do 
+            local UserId = data.value
+            local player = game.Players:GetPlayerByUserId(UserId)
+
+            if player then 
+                -- reserve a server to teleport the monster to; store the 
+                -- reservedServerAccessCode for the hunters to use 
+                local teleportOptions = Instance.new("TeleportOptions")
+                teleportOptions.ShouldReserveServer = true
+                local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player}, teleportOptions)
+                code = error.ReservedServerAccessCode
+                print(code)
+               local function removeAfterLeaving()
+                    if success then
+                        task.wait(1)
+                        pcall(function()
+                            queue:RemoveAsync(data.key)
+                        end)
+                    end
+                end
+                local wrappedFunction = coroutine.wrap(removeAfterLeaving)
+                wrappedFunction()
+            end
+        end
+    end
+end
+
+local function CountHunterQueue()
     local success, queuedPlayers = pcall(function()
         return HQueue:GetRangeAsync(Enum.SortDirection.Descending, Hunters)
     end)
@@ -101,13 +135,13 @@ local function addToHunterQueue()
             amountQueued += 1
             print(amountQueued)
         end
-        Teleporting(amountQueued, HQueue, Hunters, queuedPlayers)
+        -- TeleportHunters(amountQueued, HQueue, Hunters, queuedPlayers)
     end
 end
 
-local function addToMonsterQueue()
+local function CountMonsterQueue()
     local success, queuedPlayers = pcall(function()
-        return MQueue:GetRangeAsync(Enum.SortDirection.Descending, Monster)
+        return MQueue:GetRangeAsync(Enum.SortDirection.Descending, MonsterMax)
     end)
     if success then
         local amountQueued = 0
@@ -115,12 +149,12 @@ local function addToMonsterQueue()
             amountQueued += 1
             print(amountQueued)
         end
-        Teleporting(amountQueued, MQueue, Monster, queuedPlayers)
+        TeleportMonster(amountQueued, MQueue, MonsterMax, queuedPlayers)
     end
 end
 
--- Main matchmaking loop 
 while task.wait(1) do
-    addToHunterQueue()
-    addToMonsterQueue()
+    -- Main matchmaking loop 
+    CountHunterQueue()
+    CountMonsterQueue()
 end
