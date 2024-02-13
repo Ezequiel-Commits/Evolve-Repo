@@ -4,7 +4,7 @@ local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 local item
 
-local function Raycast()
+--[[local function Raycast()
     local screenToWorldRay = workspace.CurrentCamera:ViewportPointToRay(mouse.X,mouse.Y)
     local directionVector = screenToWorldRay.Direction * 1000
 
