@@ -8,7 +8,6 @@ QueueButton.MouseButton1Click:Connect(function()
     MultiplayerGui.Enabled = not MultiplayerGui.Enabled
 end)
 
--- I need to use something similar to the technique used to change the queue button text to avoid duplicate tags 
 local function HunterSelected()
     QueueButton.QueueText.Text = QueueButton.QueueText.Text == "QUEUE" and "IN QUEUE" or "QUEUE"
     game.ReplicatedStorage:WaitForChild("QueueEvent"):FireServer(QueueButton.QueueText.Text, "Hunter")
