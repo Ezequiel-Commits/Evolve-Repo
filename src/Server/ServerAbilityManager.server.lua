@@ -16,21 +16,59 @@ local function ChangePlayerMovement(player, speed)
 
 end
 
-local function DamageFunc(Hitbox, damage)
+local function DamageFunc(player, Hitbox, damage)
 	-- given a hitbox and dps, damage any other players who touch the ability
-	
+
 	-- the debounce for this function 
 	wait(.5)
 
 	local parts = Hitbox:GetTouchingParts()
-	
+
+	print(parts)
+
 	local humanoidsDamaged = {}
-	
+	local objectsDamaged = {}
+
+	print("DamageFunc has been called")
+
 	for i, part in pairs(parts) do
+		local destoryable = part.Parent:FindFirstChild("Destroyable")
+		local health = part.Parent:FindFirstChild("Health")
+		local destroyed = part.Parent:FindFirstChild("Destroyed")
+
+		print(part)
+
 		if part.Parent:FindFirstChild("Humanoid") and not humanoidsDamaged[part.Parent.Humanoid] then
 			
 			humanoidsDamaged[part.Parent.Humanoid] = true
 			part.Parent.Humanoid:TakeDamage(damage)
+			
+		elseif destoryable and health and not destroyed and not objectsDamaged[part.Parent] and player then
+			
+			objectsDamaged[part.Parent] = true
+
+			local evolved = nil
+
+			warn("There is no evolved value, you need to create one. Put the path to the evolved object-value")
+
+			if evolved then
+				if evolved.Value >= 3 then
+					if health.Value > 0 then
+						health.Value -= damage
+
+						print("Hit Object")
+					end
+
+					if health.Value < 0 and not destroyed  then
+						local destroyed = Instance.new("BoolValue")
+						destroyed.Name = "Destroyed"
+						destroyed.Parent = part.Parent
+
+						print("Destroyed Object")
+					end
+				end
+			end
+			
 		end
 	end
 
@@ -65,7 +103,7 @@ local function RockThrowfunc(player)
 
 	rock.Part.Touched:Connect(function(otherPart)
 		
-		DamageFunc(rock.Part, 20)
+		DamageFunc(player, rock.Part, 20)
 
 		if not otherPart:IsDescendantOf(character) then
 			rock:Destroy()
@@ -106,7 +144,7 @@ local function FireBreathFunc(player)
 	weldConstraint2.Part1 = Hitbox
 
 	Hitbox.Touched:Connect(function(otherPart)
-		DamageFunc(Hitbox, 5)
+		DamageFunc(player, Hitbox, 5)
 	end)
 	
 	-- cleanup 
