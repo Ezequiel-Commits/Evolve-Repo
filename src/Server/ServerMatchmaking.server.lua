@@ -1,12 +1,11 @@
 -- The serverside script for matchmaking in the main menu 
 local memoryStore = game:GetService("MemoryStoreService")
 local Queue = memoryStore:GetSortedMap("Queue")
-local Players = game:GetService("Players")
 local teleportService = game:GetService("TeleportService")
 local dataStoreService = game:GetService("DataStoreService")
 local dataStore = dataStoreService:GetDataStore("Tags")
 local RoundModule = require(game.ReplicatedStorage.Shared:FindFirstChild("RoundModule"))
-local maxPlayers = 2
+local maxPlayers = 50
 
 local Maps = {
     Armory = 16150729763,
@@ -59,122 +58,42 @@ game.Players.PlayerRemoving:Connect(removeFromQueue)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(SetDataStore)
 game.ReplicatedStorage.QueueEvent.OnServerEvent:Connect(EditQueue)
 
--- Functions in ascending order
-local function Teleport(MonsterQ, HunterQ, player, data)
-    if MonsterQ == 1 and HunterQ == 1 then 
-        -- teleport each player in the queue if the conditions have been reached
-        if player then 
-            local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player})
-            local function removeAfterLeaving()
-                -- remove players from the queue after they've left using a coroutine function
-                if success then
-                    task.wait(1)
-                    pcall(function()
-                        Queue:RemoveAsync(data.key)
-                    end)
-                end
-            end
-            local wrappedFunction = coroutine.wrap(removeAfterLeaving)
-            wrappedFunction()
-            print("Wrapped")
+while task.wait(1) do
+    -- main matchmaking loop 
+    local success, queuedPlayers = pcall(function()
+        return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
+    end)
+    if success then
+        local MonsterQ = 0
+        local HunterQ = 0
+        -- no need to sift through all the players in the queue; just the one in this server
+        assignPlayer()
+        if player:FindFirstChild("Monster") then 
+            MonsterQ += 1
+            print(MonsterQ)
+        elseif player:FindFirstChild("Hunter") then
+            HunterQ += 1
+            print(HunterQ)
         end
-    end
-end
-
-local function countSeparateQueues(player, MonsterQ, HunterQ)
-    if player:FindFirstChild("Monster") then 
-        MonsterQ += 1
-        print(MonsterQ)
-    elseif player:FindFirstChild("Hunter") then
-        HunterQ += 1
-        print(HunterQ)
-    end
-end
-
-local function LoopThroughGlobalQueue(queuedPlayers, MonsterQ, HunterQ)
-    for i, data in pairs(queuedPlayers) do
-        -- it's attempting to define players in a different server based on the global queue
-        local UserId = data.value
-        local player = game.Players:GetPlayerByUserId(UserId)
-        countSeparateQueues(player, MonsterQ, HunterQ)
         if MonsterQ == 1 and HunterQ == 1 then 
             -- teleport each player in the queue if the conditions have been reached
             if player then 
-                Teleport()
                 local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player})
                 local function removeAfterLeaving()
                     if success then
                         task.wait(1)
                         pcall(function()
-                            Queue:RemoveAsync(data.key)
+                            for i, data in pairs(queuedPlayers) do
+                                -- remove them from the queue
+                                print(queuedPlayers)
+                                Queue:RemoveAsync(data.key)
+                            end
                         end)
                     end
                 end
                 -- remove them from the queue after they've left using a coroutine function
                 local wrappedFunction = coroutine.wrap(removeAfterLeaving)
                 wrappedFunction()
-            end
-        end
-    end
-end
-
-local function callPcallOnQueue(success, queuedPlayers)
-    if success then
-        local MonsterQ = 0
-        local HunterQ = 0
-        -- sift through all the players currently in the queue
-        LoopThroughGlobalQueue(queuedPlayers, MonsterQ, HunterQ)
-    end
-end
-
-local function GetRangeOfQueue()
-    local success, queuedPlayers = pcall(function()
-        -- The maxPlayers parameter could be tweaked 
-        return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
-    end)
-end
-
---[[while task.wait(1) do 
-    GetRangeOfQueue()
-    callPcallOnQueue()
-end]]
-
-while task.wait(1) do
-    -- Main matchmaking loop; I should refactor soon 
-    local success, queuedPlayers = pcall(function()
-        -- The maxPlayers parameter could be tweaked 
-        return Queue:GetRangeAsync(Enum.SortDirection.Descending, maxPlayers)
-    end)
-    if success then
-        local MonsterQ = 0
-        local HunterQ = 0
-        -- sift through all the players on a server-side basis
-        --for i, data in pairs(queuedPlayers) do
-            local UserId = data.value
-            local player = game.Players:GetPlayerByUserId(UserId) or Players:GetNameFromUserIdAsync(UserId)
-            if player:FindFirstChild("Monster") then 
-                MonsterQ += 1
-                print(MonsterQ)
-            elseif player:FindFirstChild("Hunter") then
-                HunterQ += 1
-                print(HunterQ)
-            end
-            if MonsterQ == 1 and HunterQ == 1 then 
-                -- teleport each player in the queue if the conditions have been reached
-                if player then 
-                    local success, error = pcall(teleportService.TeleportAsync, teleportService, ChosenMap, {player})
-                    local function removeAfterLeaving()
-                        if success then
-                            task.wait(1)
-                            pcall(function()
-                                Queue:RemoveAsync(data.key)
-                            end)
-                        end
-                    end
-                    -- remove them from the queue after they've left using a coroutine function
-                    local wrappedFunction = coroutine.wrap(removeAfterLeaving)
-                    wrappedFunction()
-                end
             end
         end
     end
