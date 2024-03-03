@@ -1,5 +1,5 @@
 ---@diagnostic disable: trailing-space
-local replicatedStorage = game.ReplicatedStorage
+--[[local replicatedStorage = game.ReplicatedStorage
 Bezier = require(replicatedStorage.Shared.BezierModule)
 local Debris = game:GetService("Debris")
 
@@ -238,4 +238,4 @@ end
 
 replicatedStorage.AbilityFolder.RockThrowFolder.RockThrow.OnServerEvent:Connect(RockThrowfunc)
 replicatedStorage.AbilityFolder.FireBreathFolder.FireBreath.OnServerEvent:Connect(FireBreathFunc)
-replicatedStorage.AbilityFolder.LeapFolder.Leap.onServerEvent:Connect(LeapFunc)
+replicatedStorage.AbilityFolder.LeapFolder.Leap.onServerEvent:Connect(LeapFunc)]]
